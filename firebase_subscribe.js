@@ -16,10 +16,9 @@ if ('Notification' in window) {
 
     // по клику, запрашиваем у пользователя разрешение на уведомления
     // и подписываем его
-    document.getElementById("subscribe").onclick = function() {
-        Window.alert("subscribe");
+    $('#subscribe').on('click', function () {
         subscribe();
-    };
+    });
 }
 
 function subscribe() {
