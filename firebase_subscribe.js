@@ -13,13 +13,13 @@ if ('Notification' in window) {
     if (Notification.permission === 'granted') {
         subscribe();
     }
-}
 
     // по клику, запрашиваем у пользователя разрешение на уведомления
     // и подписываем его
     $('#subscribe').on('click', function () {
         subscribe();
     });
+}
 
 function subscribe() {
     // запрашиваем разрешение на получение уведомлений
