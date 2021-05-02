@@ -30,9 +30,7 @@ function subscribe() {
                 .then(function (currentToken) {
                     console.log(currentToken);
 
-                    if (currentToken) {
-                        sendTokenToServer(currentToken);
-                    } else {
+                    if (!currentToken) {
                         console.warn('Не удалось получить токен.');
                         setTokenSentToServer(false);
                     }
