@@ -7,6 +7,9 @@ var bt_register = $('#subscribe');
 var bt_delete = $('#delete');
 var token = $('#token');
 
+var info = $('#info');
+var info_message = $('#info-message');
+
 // браузер поддерживает уведомления
 // вообще, эту проверку должна делать библиотека Firebase, но она этого не делает
 if ('Notification' in window) {
@@ -41,6 +44,33 @@ if ('Notification' in window) {
             .catch(function(error) {
                 showError('Error retrieving Instance ID token', error);
             });
+    });
+
+    // handle catch the notification on current page
+    messaging.onMessage(function(payload) {
+        console.log('Message received', payload);
+        info.show();
+        info_message
+            .text('')
+            .append('<strong>'+payload.data.title+'</strong>')
+            .append('<em>'+payload.data.body+'</em>')
+        ;
+
+        // register fake ServiceWorker for show notification on mobile devices
+        navigator.serviceWorker.register('/serviceworker/firebase-messaging-sw.js');
+        Notification.requestPermission(function(permission) {
+            if (permission === 'granted') {
+                navigator.serviceWorker.ready.then(function(registration) {
+                  // Copy data object to get parameters in the click handler
+                  payload.data.data = JSON.parse(JSON.stringify(payload.data));
+
+                  registration.showNotification(payload.data.title, payload.data);
+                }).catch(function(error) {
+                    // registration failed :(
+                    showError('ServiceWorker registration failed', error);
+                });
+            }
+        });
     });
 }
 
@@ -78,4 +108,5 @@ function resetUI() {
     token.text('');
     bt_register.show();
     bt_delete.hide();
+    info.hide();
 }
