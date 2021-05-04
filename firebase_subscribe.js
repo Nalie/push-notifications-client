@@ -52,7 +52,7 @@ if ('Notification' in window) {
         info.show();
         info_message
             .text('')
-            .append('<strong>'+payload.notification.title+'</strong>')
+            .append('<strong>'+payload.notification.title+'</strong><br>')
             .append('<em>'+payload.notification.body+'</em>')
         ;
 
